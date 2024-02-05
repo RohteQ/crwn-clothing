@@ -1,0 +1,5 @@
+{
+    "CodeGPT.apiKey": "CodeGPT Plus Beta",
+    "eslint.experimental.useFlatConfig": false,
+    "graphql-config.load.configName": ""
+}
