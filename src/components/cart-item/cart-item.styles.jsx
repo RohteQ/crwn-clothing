@@ -7,6 +7,7 @@ export const CartItemContainer = styled.div`
   margin-bottom: 15px;
 
   img {
+    object-fit: contain;
     width: 30%;
   }
 `;
