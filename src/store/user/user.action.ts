@@ -27,6 +27,8 @@ export type SignOutSuccess = AnyAction<USER_ACTION_TYPES.SIGN_OUT_SUCCESS>
 
 export type SignOutStart = AnyAction<USER_ACTION_TYPES.SIGN_OUT_START>
 
+export type SignInSuccess = ActionWithPayload<USER_ACTION_TYPES.SIGN_IN_SUCCESS, UserData>
+
 
 
 export const checkUserSession = withMatcher((): CheckUserSession => createAction(USER_ACTION_TYPES.CHECK_USER_SESSION));
@@ -40,7 +42,7 @@ export const googleSignInStart = withMatcher((): GoogleSignInStart => createActi
 
 export const emailSignInStart = withMatcher((email:string, password:string):EmailSignInStart => createAction(USER_ACTION_TYPES.EMAIL_SIGN_IN_START, { email,  password }));
 
-export const signInSuccess = (user:UserData) => createAction(USER_ACTION_TYPES.SIGN_IN_SUCCESS, { user });
+export const signInSuccess = withMatcher((user:UserData):SignInSuccess => createAction(USER_ACTION_TYPES.SIGN_IN_SUCCESS,  user ));
 
 export const signInFailed = withMatcher((error:Error): SignInFailed => createAction(USER_ACTION_TYPES.SIGN_IN_FAILED,  error ));
 
