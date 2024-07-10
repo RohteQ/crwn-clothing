@@ -1,5 +1,5 @@
 import { Fragment } from 'react';
-import {Outlet} from 'react-router-dom';
+import { Outlet} from 'react-router-dom';
 import { useSelector, useDispatch } from 'react-redux';
 import {ReactComponent as CrwnLogo} from '../../assets/crown.svg';
 import CartIcon from '../../components/cart-icon/cart-icon.component';
@@ -12,7 +12,7 @@ import {
   NavLink, 
   NavLinks, 
   LogoContainer
-} from './navigation.styles.jsx'
+} from './navigation.styles'
 
 const Navigation = () => {
   const dispatch = useDispatch();
@@ -33,9 +33,8 @@ const Navigation = () => {
                 <NavLink to= '/shop'>
                    SHOP 
                 </NavLink>
-                {
-                  currentUser ? (
-                    <NavLink as='span' onClick={signOutUser}> 
+                {currentUser ? (
+                    <NavLink  as='span' onClick={signOutUser}> 
                       SIGN OUT
                     </NavLink>
                     ) : (
