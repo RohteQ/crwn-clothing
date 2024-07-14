@@ -1,4 +1,4 @@
-{
+  {
     "compilerOptions": {
       "target": "es5",
       "lib": ["dom", "dom.iterable", "esnext"],
@@ -18,7 +18,9 @@
       "noImplicitAny": true,
       "noImplicitThis": true,
       "strictNullChecks": true,
-      "jsx": "react-jsx"
+      "jsx": "react-jsx",
+      "typeRoots": ["node_modules/@types"],
+      "types": ["node", "unist"]
     },
     "include": ["src", "src/custom.d.ts"]
   }

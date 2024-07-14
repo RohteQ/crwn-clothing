@@ -109,7 +109,7 @@ const PaymentForm = () => {
                         </Alert>}
                 <PaymentButton 
                 isLoading = { isProcessingPayment} 
-                buttonType={BUTTON_TYPE_CLASSES.spinner}>
+                buttonType={BUTTON_TYPE_CLASSES.base}>
                     Pay Now
                 </PaymentButton>
             </FormContainer>

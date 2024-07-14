@@ -10,7 +10,8 @@ import { signOutStart } from '../../store/user/user.action';
 import {
   NavigationContainer, 
   NavLink, 
-  NavLinks, 
+  NavLinks,
+  NavSpan,
   LogoContainer
 } from './navigation.styles'
 
@@ -34,9 +35,9 @@ const Navigation = () => {
                    SHOP 
                 </NavLink>
                 {currentUser ? (
-                    <NavLink  as='span' onClick={signOutUser}> 
+                    <NavSpan  onClick={signOutUser}> 
                       SIGN OUT
-                    </NavLink>
+                    </NavSpan>
                     ) : (
                       <NavLink to= '/auth'>
                       SIGN IN 
