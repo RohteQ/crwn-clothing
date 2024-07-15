@@ -24,6 +24,12 @@ export const BaseButton = styled.button `
       color: black;
       border: 1px solid black;
     }
+ @media screen and (max-width:800px){
+  min-width: 125px;
+  padding: 0 30px 0 30px;
+  height: 40px;
+  font-size: 13px;
+}
 
 `
 
