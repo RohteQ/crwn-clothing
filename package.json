@@ -35,8 +35,7 @@
     "styled-components": "^6.1.8",
     "typed-redux-saga": "^1.5.0",
     "typescript": "^5.4.5",
-    "web-vitals": "^2.1.4",
-    "unist": "^2.0.0"
+    "web-vitals": "^2.1.4"
   },
   "scripts": {
     "start": "react-scripts start",
@@ -63,8 +62,9 @@
     ]
   },
   "devDependencies": {
-    "@types/redux-logger": "^3.0.13",
     "@types/unist": "^3.0.2",
+    "@types/redux-logger": "^3.0.13",
     "babel-plugin-macros": "^3.1.0",
-    "resolve-url-loader": "^5.0.0"  }
+    "resolve-url-loader": "^5.0.0"
+  }
 }
