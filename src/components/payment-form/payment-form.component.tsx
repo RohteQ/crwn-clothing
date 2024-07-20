@@ -5,7 +5,7 @@ import { useSelector } from 'react-redux';
 import {selectCartTotal} from '../../store/cart/cart.selector';
 import {selectCurrentUser} from '../../store/user/user.selector';
 import  {BUTTON_TYPE_CLASSES} from "../button/button.component";
-import { PaymentFormContainer,FormContainer, PaymentButton } from "./payment-form.styles";
+import { PaymentFormContainer,FormContainer, PaymentButton, ButtonSpinner } from "./payment-form.styles";
 import { Alert } from '@mui/material';
 
 
@@ -61,9 +61,11 @@ const PaymentForm = () => {
         
         const cardDetails =  elements.getElement(CardElement);
         
-        if(!ifValidCardElement(cardDetails)) return;
-        
-
+        if (!ifValidCardElement(cardDetails)) {
+            setIsProcessingPayment(false);
+            setPaymentError( 'Card details are invalid or incomplete.');
+            return;
+        }
 
         const paymentResult = await stripe.confirmCardPayment(client_secret,{
             payment_method:{
@@ -84,7 +86,7 @@ const PaymentForm = () => {
                 setPaymentSuccess('Payment succeeded!');
             }
         }
-    }catch (error:any) {
+    }catch (error: any) {
             setIsProcessingPayment(false);
             setPaymentError(error.message || 'An unknown error occurred.');
         }
@@ -110,6 +112,7 @@ const PaymentForm = () => {
                 <PaymentButton 
                 isLoading = { isProcessingPayment} 
                 buttonType={BUTTON_TYPE_CLASSES.base}>
+                    {isProcessingPayment && <ButtonSpinner />}
                     Pay Now
                 </PaymentButton>
             </FormContainer>

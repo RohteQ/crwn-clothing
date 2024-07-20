@@ -1,13 +1,11 @@
-import { useState , FormEvent, ChangeEvent} from 'react';
-import { useDispatch } from 'react-redux';
-import { AuthError,AuthErrorCodes } from 'firebase/auth';
+import { useState, FormEvent, ChangeEvent, useEffect } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+import { Alert,Snackbar } from '@mui/material';
 import FormInput from '../form-input/form-input.component';
 import Button from '../button/button.component';
-
-
-
 import { SignUpContainer } from './sign-up-form.styles';
-import { signUpStart } from '../../store/user/user.action';
+import { signUpStart ,clearSignUpError} from '../../store/user/user.action';
+import { selectUserError, selectUserSuccess } from '../../store/user/user.selector';
 
 const defaultFormFields = {
   displayName: '',
@@ -19,36 +17,51 @@ const defaultFormFields = {
 const SignUpForm = () => {
   const [formFields, setFormFields] = useState(defaultFormFields);
   const { displayName, email, password, confirmPassword } = formFields;
-  
   const dispatch = useDispatch();
-  
+  const [openSnackbar, setOpenSnackbar] = useState(false);
+  const [snackbarMessage, setSnackbarMessage] = useState<string | null>(null);
+  const [alertSeverity, setAlertSeverity] = useState<'success' | 'error'>('error');
+
+  const [passwordMismatch, setPasswordMismatch] = useState(false);  
+  const error = useSelector(selectUserError);
+  const success = useSelector(selectUserSuccess);
+
+  useEffect(() => {
+    if (error) {
+        setSnackbarMessage(error.message || '');
+        setAlertSeverity('error');
+        setOpenSnackbar(true);
+        dispatch(clearSignUpError());
+    } else if (success) {
+        setSnackbarMessage(success);
+        setAlertSeverity('success');
+        setOpenSnackbar(true);
+        dispatch(clearSignUpError());
+    }
+}, [error, success, dispatch]);
+
+const handleCloseSignUpSnackbar = () => {
+    setOpenSnackbar(false);
+};
+
   const resetFormFields = () => {
     setFormFields(defaultFormFields);
   };
 
-  const handleSubmit = async (event:FormEvent<HTMLFormElement>) => {
+  const handleSubmit = (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
 
     if (password !== confirmPassword) {
-      alert('passwords do not match');
+      setPasswordMismatch(true);
       return;
     }
-
-    try {
-      dispatch(signUpStart(email, password,displayName))
-      resetFormFields();
-    } catch (error) {
-      if ((error as AuthError).code === AuthErrorCodes.EMAIL_EXISTS) {
-        alert('Cannot create user, email already in use');
-      } else {
-        console.log('user creation encountered an error', error);
-      }
-    }
+    
+    dispatch(signUpStart(email, password, displayName));
+    resetFormFields();
   };
 
-  const handleChange = (event:ChangeEvent<HTMLInputElement>) => {
+  const handleChange = (event: ChangeEvent<HTMLInputElement>) => {
     const { name, value } = event.target;
-
     setFormFields({ ...formFields, [name]: value });
   };
 
@@ -65,7 +78,6 @@ const SignUpForm = () => {
           name='displayName'
           value={displayName}
         />
-
         <FormInput
           label='Email'
           type='email'
@@ -74,7 +86,6 @@ const SignUpForm = () => {
           name='email'
           value={email}
         />
-
         <FormInput
           label='Password'
           type='password'
@@ -83,7 +94,6 @@ const SignUpForm = () => {
           name='password'
           value={password}
         />
-
         <FormInput
           label='Confirm Password'
           type='password'
@@ -94,7 +104,25 @@ const SignUpForm = () => {
         />
         <Button type='submit'>Sign Up</Button>
       </form>
-    </SignUpContainer>
+            <Snackbar
+                open={openSnackbar}
+                autoHideDuration={5000}
+                onClose={handleCloseSignUpSnackbar}
+            >
+                <Alert onClose={handleCloseSignUpSnackbar} severity={alertSeverity}>
+                    {snackbarMessage}
+                </Alert>
+            </Snackbar> 
+      <Snackbar
+        open={passwordMismatch}
+        autoHideDuration={6000}
+        onClose={() => setPasswordMismatch(false)}
+      >
+        <Alert onClose={() => setPasswordMismatch(false)} severity="error">
+          Passwords do not match
+        </Alert>
+      </Snackbar>
+    </SignUpContainer> 
   );
 };
 

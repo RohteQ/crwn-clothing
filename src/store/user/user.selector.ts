@@ -3,9 +3,19 @@ import {UserState} from './user.reducer';
 import { RootState } from "../store";
 
 
-export const selectUserReducer = (state : RootState):  UserState =>state.user;
+export const selectUserReducer = (state : RootState):  UserState => state.user;
 
 
 export const selectCurrentUser = createSelector(
     selectUserReducer,
     (user) => user.currentUser);
+    
+export const selectUserError = createSelector(
+  selectUserReducer,
+  (user) => user.error
+);
+
+export const selectUserSuccess = createSelector(
+  selectUserReducer,
+  (user) => user.success
+);

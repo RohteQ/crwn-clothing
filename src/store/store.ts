@@ -5,8 +5,8 @@ import logger from 'redux-logger';
 import createSagaMiddleware from 'redux-saga';
 import { rootReducer } from './root-reducer';
 import { rootSaga } from './root-saga';
-
 export type RootState = ReturnType<typeof rootReducer>
+
 
 declare global {
     interface Window{
@@ -28,7 +28,8 @@ const sagaMiddleware = createSagaMiddleware();
 const persistedReducer =  persistReducer(persistConfig, rootReducer)
  
 const middleWares = [
-    process.env.NODE_ENV !== 'production' && logger,sagaMiddleware 
+    process.env.NODE_ENV !== 'production' && logger,
+    sagaMiddleware 
 ].filter((middleware): middleware is Middleware =>Boolean(middleware));
 
 const composeEnhancer = (process.env.NODE_ENV !== 'production' 
@@ -37,7 +38,10 @@ const composeEnhancer = (process.env.NODE_ENV !== 'production'
 
 const composedEnhancers = composeEnhancer(applyMiddleware(...middleWares));
 
-export const store = createStore(persistedReducer,undefined, composedEnhancers);
+export const store = createStore(
+    persistedReducer,
+    undefined, 
+    composedEnhancers);
 
 sagaMiddleware.run(rootSaga);
 
